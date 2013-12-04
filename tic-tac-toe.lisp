@@ -16,40 +16,38 @@
 (defstruct player name mark)
 ; mark can be X or O
 
-(defun mark-spot! (mark x y) ; make the Schemers feel at home
+(defun mark! (mark x y) ; make the Schemers feel at home
   "marks a square"
-  (setf (aref x y) mark))
+  (setf (aref *game-state* x y) mark))
 ; make sure to decf x and y in the final release, so that we can have 1-3 instead of 0-2
 
 (defun ticp (x y z)
   "tests if tic-tac-toe!"
-  (and (eq x y) (eq y z)))
+  (and (eql x y) (eql y z)))
 
-(defun column-tac (column)
-  (ticp (aref *game-state* 0 column)
-	(aref *game-state* 1 column)
-	(aref *game-state* 2 column))
-  )
+(defgeneric tac (direction))
 
-(defun row-tac (row) 
-  (ticp (aref *game-state* row 0)
-	(aref *game-state* row 1)
-	(aref *game-state* row 2))
-  )
-
-(defgeneric cross-tac (direction))
-
-(defmethod cross-tac ((direction (eql :back)))
+(defmethod tac ((direction (eql :back)))
   (ticp (aref *game-state* 0 0)
 	(aref *game-state* 1 1)
-	(aref *game-state* 2 2))
-    )
+	(aref *game-state* 2 2)))
 
-(defmethod cross-tac ((direction (eql :forward)))
+(defmethod tac ((direction (eql :forward)))
   (ticp (aref *game-state* 0 2)
 	(aref *game-state* 1 1)
-	(aref *game-state* 2 0))
-  )
+	(aref *game-state* 2 0)))
+
+(defun column-tac (column)
+  "checks to see if there is a win in a column"
+  (ticp (aref *game-state* 0 column)
+	(aref *game-state* 1 column)
+	(aref *game-state* 2 column)))
+
+(defun row-tac (row)
+  "checks to see if there is a win in a row"
+  (ticp (aref *game-state* row 0)
+	(aref *game-state* row 1)
+	(aref *game-state* row 2)))
 
 #|
 defun tac-search (mark)
@@ -78,7 +76,7 @@ loop for i
 
 (defun start (player1 mark &key player2 mark2)
   "starts the game"
-  (make-player :name name :mark mark)
+  (make-player :name player1 :mark mark)
   ) ; should also clear the board and create a CPU player by default
 ;; oh, code a cpu player.
 
