@@ -51,24 +51,23 @@
 	(aref *game-state* 2 0))
   )
 
-(defun tac-search (mark)
+#|
+defun tac-search (mark)
   "searches for tac column"
-  (loop for i
+  loop for i
        from 0
        do (ticp (aref *game-state* i 0))
-       
-
-
+|#
+     
 (defun winp ())
 
 #|
-(defmacro eq3 (x y z)
+defmacro eq3 (x y z)
   `(and (eq x y) (eq y z)))
 |#
 
-
 #|
-(loop for i
+loop for i
      from 0
      do (loop for i
 	     from 0
@@ -76,6 +75,12 @@
 	     until 2
      until 2
 |#
+
+(defun start (player1 mark &key player2 mark2)
+  "starts the game"
+  (make-player :name name :mark mark)
+  ) ; should also clear the board and create a CPU player by default
+;; oh, code a cpu player.
 
 (defun game ()
   "a simple game of tic-tac-toe"
