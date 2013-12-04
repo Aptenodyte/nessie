@@ -21,11 +21,43 @@
   (setf (aref x y) mark))
 ; make sure to decf x and y in the final release, so that we can have 1-3 instead of 0-2
 
-(
-
 (defun ticp (x y z)
   "tests if tic-tac-toe!"
   (and (eq x y) (eq y z)))
+
+(defun column-tac (column)
+  (ticp (aref *game-state* 0 column)
+	(aref *game-state* 1 column)
+	(aref *game-state* 2 column))
+  )
+
+(defun row-tac (row) 
+  (ticp (aref *game-state* row 0)
+	(aref *game-state* row 1)
+	(aref *game-state* row 2))
+  )
+
+(defgeneric cross-tac (direction))
+
+(defmethod cross-tac ((direction (eql :back)))
+  (ticp (aref *game-state* 0 0)
+	(aref *game-state* 1 1)
+	(aref *game-state* 2 2))
+    )
+
+(defmethod cross-tac ((direction (eql :forward)))
+  (ticp (aref *game-state* 0 2)
+	(aref *game-state* 1 1)
+	(aref *game-state* 2 0))
+  )
+
+(defun tac-search (mark)
+  "searches for tac column"
+  (loop for i
+       from 0
+       do (ticp (aref *game-state* i 0))
+       
+
 
 (defun winp ())
 
