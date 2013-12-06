@@ -23,7 +23,9 @@
 
 (defun ticp (x y z)
   "tests if tic-tac-toe!"
-  (and (eql x y) (eql y z)))
+  (if (eq t (and (eql x y) (eql y z)))
+      x)
+  )
 
 (defgeneric tac (direction))
 
@@ -59,20 +61,7 @@ defun tac-search (mark)
      
 (defun winp ())
 
-#|
-defmacro eq3 (x y z)
-  `(and (eq x y) (eq y z)))
-|#
 
-#|
-loop for i
-     from 0
-     do (loop for i
-	     from 0
-	     do
-	     until 2
-     until 2
-|#
 
 (defun start (player1 mark &key player2 mark2)
   "starts the game"
