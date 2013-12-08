@@ -21,35 +21,47 @@
   (setf (aref *game-state* x y) mark))
 ; make sure to decf x and y in the final release, so that we can have 1-3 instead of 0-2
 
-(defun ticp (x y z)
-  "tests if tic-tac-toe!"
-  (if (eq t (and (eql x y) (eql y z)))
-      x)
-  )
+(defun mark-matchp (mark square)
+  "tests if mark matches"
+  (eql mark square))
 
-(defgeneric tac (direction))
+(defun tic (mark x y z)
+  "does a series of three marks match?"
+  (if (eq t (and (mark-matchp mark x) 
+		 (mark-matchp mark y)
+		 (mark-matchp mark z)))
+      mark ; should use labels / let
+      'nil ; the if approach isn't working for uncear reasons
+      )) ; I hate making a core function bigger than a few lines, though.
 
-(defmethod tac ((direction (eql :back)))
-  (ticp (aref *game-state* 0 0)
-	(aref *game-state* 1 1)
-	(aref *game-state* 2 2)))
+(defgeneric tac (direction mark))
 
-(defmethod tac ((direction (eql :forward)))
-  (ticp (aref *game-state* 0 2)
-	(aref *game-state* 1 1)
-	(aref *game-state* 2 0)))
+(defmethod tac ((direction (eql :back)) mark)
+  (tic mark
+       (aref *game-state* 0 0)
+       (aref *game-state* 1 1)
+       (aref *game-state* 2 2)))
 
-(defun column-tac (column)
+(defmethod tac ((direction (eql :forward)) mark)
+  (tic mark
+       (aref *game-state* 0 2)
+       (aref *game-state* 1 1)
+       (aref *game-state* 2 0)))
+
+(defun column-tac (mark column)
   "checks to see if there is a win in a column"
-  (ticp (aref *game-state* 0 column)
-	(aref *game-state* 1 column)
-	(aref *game-state* 2 column)))
+  (tic mark
+       (aref *game-state* 0 column)
+       (aref *game-state* 1 column)
+       (aref *game-state* 2 column)))
 
-(defun row-tac (row)
+(defun row-tac (mark row)
   "checks to see if there is a win in a row"
-  (ticp (aref *game-state* row 0)
-	(aref *game-state* row 1)
-	(aref *game-state* row 2)))
+  (tic mark
+       (aref *game-state* row 0)
+       (aref *game-state* row 1)
+       (aref *game-state* row 2)))
+
 
 #|
 defun tac-search (mark)
@@ -60,8 +72,6 @@ defun tac-search (mark)
 |#
      
 (defun winp ())
-
-
 
 (defun start (player1 mark &key player2 mark2)
   "starts the game"
