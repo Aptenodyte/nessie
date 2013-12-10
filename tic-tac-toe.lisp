@@ -10,6 +10,8 @@
   "this is the game of tic-tac-toe"
   )
 
+(defvar *winner*) ; used to store the current winner
+
 ; access with (aref symbol x y
 ; remember, 0 is the base coord!
 
@@ -30,9 +32,10 @@
   (if (eq t (and (mark-matchp mark x) 
 		 (mark-matchp mark y)
 		 (mark-matchp mark z)))
-      mark ; should use labels / let
-      'nil ; the if approach isn't working for uncear reasons
-      )) ; I hate making a core function bigger than a few lines, though.
+      (setf *winner* mark); should use labels / let
+      )
+  ) ; I hate making a core function bigger than a few lines, though.
+ ; the if approach isn't working for uncear reasons
 
 (defgeneric tac (direction mark))
 
