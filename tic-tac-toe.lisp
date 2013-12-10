@@ -62,14 +62,9 @@
        (aref *game-state* row 1)
        (aref *game-state* row 2)))
 
-
-#|
-defun tac-search (mark)
-  "searches for tac column"
-  loop for i
-       from 0
-       do (ticp (aref *game-state* i 0))
-|#
+(defun toe ()
+  "will do something"
+  ())
      
 (defun winp ())
 
