@@ -25,7 +25,7 @@
 
 (defun mark-matchp (mark square)
   "tests if mark matches"
-  (eql mark square))
+  (equal mark square))
 
 (defun tic (mark x y z)
   "does a series of three marks match?"
