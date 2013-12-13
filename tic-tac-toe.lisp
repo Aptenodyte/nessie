@@ -71,6 +71,10 @@
      
 (defun winp ())
 
+(defun ai ()
+  "a basic AI"
+  )
+
 (defun start (player1 mark &key player2 mark2)
   "starts the game"
   (make-player :name player1 :mark mark)
